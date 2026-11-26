@@ -2,7 +2,7 @@
 
 This is the home bench version. The lab test used the same pins.
 
-## CN0276 connector J2 (20-pin IDC)
+## CN0276 connector J2 (20 pin IDC)
 
 Read from the EVAL-CN0276-SDPZ schematic.
 
@@ -23,20 +23,20 @@ Read from the EVAL-CN0276-SDPZ schematic.
 
 | C2000 pin | Function | Goes to |
 |---|---|---|
-| GPIO58 | SPISIMOA | SDI (J2-12) |
-| GPIO59 | SPISOMIA | SDO (J2-13) |
-| GPIO60 | SPICLKA | SCLK (J2-10) |
-| GPIO61 | SPISTEA | WR/FSYNC (J2-17) |
+| GPIO58 | SPISIMOA | SDI (J2 pin 12) |
+| GPIO59 | SPISOMIA | SDO (J2 pin 13) |
+| GPIO60 | SPICLKA | SCLK (J2 pin 10) |
+| GPIO61 | SPISTEA | WR/FSYNC (J2 pin 17) |
 | GPIO19 (J1 pin 3) | GPIO output | A0 or A1 |
 | GPIO32 (J1 pin 2) | GPIO output | A0 or A1 |
-| GPIO40 (J5 pin 50) | GPIO output | SAMPLE (J2-15) |
+| GPIO40 (J5 pin 50) | GPIO output | SAMPLE (J2 pin 15) |
 | GND | | GND |
 
 ## Notes
 
 - GPIO19 and GPIO32 go to A0 and A1. The code always drives both together (11 for configuration mode, 00 for normal mode), so which goes where does not matter.
-- SOE (J2-16) is tied to GND to select the serial interface. The board pulls it high by default.
+- SOE (J2 pin 16) is tied to GND to select the serial interface. The board pulls it high by default.
 - The board pulls CS low itself.
-- RES0 and RES1 were left unconnected in all tests. The board gives 16-bit output with them left like this.
-- SPI-A on GPIO58 to 61 is mux option 15. That is GMUX = 3 and MUX = 3 for each pin. Both have to be set (see lesson 2 in [lessons.md](lessons.md)).
+- RES0 and RES1 were left unconnected in all tests. The board gives 16 bit output with them left like this.
+- SPI A on GPIO58 to 61 is mux option 15. That is GMUX = 3 and MUX = 3 for each pin. Both have to be set (see lesson 2 in [lessons.md](lessons.md)).
 - No pull resistors were fitted on the mode or framing lines. See lesson 12.

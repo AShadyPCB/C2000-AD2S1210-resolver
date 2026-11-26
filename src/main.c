@@ -1,5 +1,5 @@
 //
-// AD2S1210 resolver-to-digital converter on a TI LAUNCHXL-F28379D, over SPI-A.
+// AD2S1210 resolver to digital converter on a TI LAUNCHXL-F28379D, over SPI A.
 //
 // Register level (bitfield) code written from the TRM and datasheets.
 // The only TI helper calls are Device_init() and DEVICE_DELAY_US(),
@@ -34,7 +34,7 @@ volatile float real_pos = 0;    // angle in electrical degrees
 
 
 //
-// GPIO: three plain outputs (A0, A1, SAMPLE) and the four SPI-A pins
+// GPIO: three plain outputs (A0, A1, SAMPLE) and the four SPI A pins
 //
 void GPIO_init(){
 
@@ -55,7 +55,7 @@ void GPIO_init(){
     GpioCtrlRegs.GPBMUX1.all |= 0x00UL;
     GpioCtrlRegs.GPBDIR.bit.GPIO40 = 0x1UL;
 
-    // SPI-A is mux option 15 on GPIO58-61: GMUX = 3 and MUX = 3 on every pin
+    // SPI A is mux option 15 on GPIO58 to 61: GMUX = 3 and MUX = 3 on every pin
     //SPISIMO A
     GpioCtrlRegs.GPBGMUX2.bit.GPIO58 = 0x3UL;
     GpioCtrlRegs.GPBMUX2.bit.GPIO58 = 0x3UL;
@@ -73,7 +73,7 @@ void GPIO_init(){
 }
 
 //
-// SPI-A: master, idle-low clock, no phase delay, 1 MHz, 8-bit words, no FIFO
+// SPI A: master, idle low clock, no phase delay, 1 MHz, 8 bit words, no FIFO
 //
 void SPI_init(){
 
@@ -93,35 +93,35 @@ void SPI_init(){
 }
 
 //
-// A0 = A1 = 1: configuration mode, 8-bit register access
+// A0 = A1 = 1: configuration mode, 8 bit register access
 //
 void AD2S_Config_mode(){
 
-    //Sets A0,A1 to 11
+    //Sets A0,A1 to 11 for configuration mode
     GpioDataRegs.GPASET.all = 1UL<<19; //J1 PIN3 (GPIO19)
     GpioDataRegs.GPBSET.all = 0x1UL; //J1 PIN2 (GPIO32)
-    SpiaRegs.SPICCR.bit.SPICHAR = 0x7UL;
+    SpiaRegs.SPICCR.bit.SPICHAR = 0x7UL;    // 8 bit words for register access
 
 }
 
 //
-// A0 = A1 = 0: normal mode, 16-bit position words
+// A0 = A1 = 0: normal mode, 16 bit position words
 //
 void AD2S_Normal_mode(){
 
-    //Sets A0,A1 to 00
+    //Sets A0,A1 to 00 for normal mode
     GpioDataRegs.GPACLEAR.all = 1UL<<19; //J1 PIN3 (GPIO19)
     GpioDataRegs.GPBCLEAR.all = 0x1UL; //J1 PIN2 (GPIO32)
 
-    SpiaRegs.SPICCR.bit.SPISWRESET = 0;
-    SpiaRegs.SPICCR.bit.SPICHAR = 0xF;      // 16-bit words
-    SpiaRegs.SPICCR.bit.SPISWRESET = 1;
+    SpiaRegs.SPICCR.bit.SPISWRESET = 0;     // SPI into reset to change the word size
+    SpiaRegs.SPICCR.bit.SPICHAR = 0xF;      // 16 bit words for the position
+    SpiaRegs.SPICCR.bit.SPISWRESET = 1;     // and back out of reset
 
 }
 
 //
 // Send one byte in configuration mode (an address or a data byte).
-// 8-bit words must be left-justified in SPITXBUF, hence the << 8.
+// 8 bit words must be left justified in SPITXBUF, hence the << 8.
 //
 void SPI_Tx_polling(Uint16 data){
 
@@ -157,7 +157,7 @@ Uint16 SPI_Rx_polling(Uint16 data){
 
 //
 // Normal mode position read.
-// Pulse SAMPLE, then one 16-bit transfer. The reply is the angle.
+// Pulse SAMPLE, then one 16 bit transfer. The reply is the angle.
 //
 Uint16 SPI_Rx_normal(){
 
@@ -168,7 +168,7 @@ Uint16 SPI_Rx_normal(){
     DEVICE_DELAY_US(1);
     GpioDataRegs.GPBCLEAR.bit.GPIO40 = 0x1UL;
 
-    //Clock out 16 bits to shift in the angle (16-bit word, no shift needed)
+    //Clock out 16 bits to shift in the angle (16 bit word, no shift needed)
     SpiaRegs.SPITXBUF = (data);
     while(SPI_FLAG==0){}
     SPI_RX = SpiaRegs.SPIRXBUF;
@@ -189,7 +189,7 @@ void main(void)
     ERTM;
 
     //
-    // ---- Bench verification (configuration mode) ----
+    // Bench verification (configuration mode)
     // Used on the home bench to prove register access before the real
     // resolver test: read the excitation frequency, write it, then read
     // the fault and control registers. Check the values in the watch window.
@@ -206,7 +206,7 @@ void main(void)
     control_reg = SPI_Rx_polling(0x92U);    // control register, default 0x7E
 
     //
-    // ---- Normal mode: position read ----
+    // Normal mode: position read
     //
     AD2S_Normal_mode();
 

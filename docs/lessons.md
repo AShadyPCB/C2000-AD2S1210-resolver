@@ -19,7 +19,7 @@ One GMUX line for GPIO60 was missing. I found it by putting the scope on the pin
 `SPICTL.TALK` was not set. Master mode alone does not enable the output.
 
 **5. Byte sent but the chip ignored it.**
-An 8-bit word has to be left-justified in the 16-bit `SPITXBUF`. Fix: shift left by 8.
+An 8 bit word has to be left justified in the 16 bit `SPITXBUF`. Fix: shift left by 8.
 
 **6. Wait loop never exited, or never waited.**
 Two causes. I copied the flag into a variable once, so it never updated. I also used `~flag` where I meant `flag == 0`. Fix: a macro that reads the register bit every time, and a plain comparison.
@@ -33,16 +33,16 @@ The reply is one transfer behind. Fix: send the address twice and keep the secon
 Fault data only updates on a falling edge of SAMPLE. Fix: pulse SAMPLE before the read.
 
 **9. Registers kept old or scrambled values after a power cycle, and the reset never seemed to happen.**
-My first theories were noise on floating lines, reset timing and back-powering. None of them held up. Measuring the board's 3.3 V rail showed it only dropped to about 2.2 V at power-off and then decayed slowly. A quick power cycle was really a brown-out, and the board's RC reset never fired. Fix: wait until the rail reads about 10 mV before powering on. After a clean reset with no resolver the registers read 0x91 = 0x28, 0x92 = 0x7E, fault = 0x70, with D0 clear.
+My first theories were noise on floating lines, reset timing and back powering. None of them held up. Measuring the board's 3.3 V rail showed it only dropped to about 2.2 V at power off and then decayed slowly. A quick power cycle was really a brownout, and the board's RC reset never fired. Fix: wait until the rail reads about 10 mV before powering on. After a clean reset with no resolver the registers read 0x91 = 0x28, 0x92 = 0x7E, fault = 0x70, with D0 clear.
 
-**10. Do not trust the power-up state.**
+**10. Do not trust the power up state.**
 At startup, write the registers that matter, read them back, and check D0 of the fault register.
 
 **11. The parity error bit is not an SPI problem.**
-The chip works out and stores parity itself when a register is written. D0 sets when the stored contents change afterwards, for example in a brown-out. A wrong clock edge would look different. Every transfer would come back shifted by one bit.
+The chip works out and stores parity itself when a register is written. D0 sets when the stored contents change afterwards, for example in a brownout. A wrong clock edge would look different. Every transfer would come back shifted by one bit.
 
-**12. Lines float between power-on and the GPIO init.**
-The C2000 only has internal pull-ups, they are off at reset, and there are no pull-downs. During that window the mode pins and WR/FSYNC are not driven. The hardware fix would be 10 kΩ pull-downs on A0 and A1 and a 10 kΩ pull-up on WR/FSYNC. These were not fitted on my setup and I saw no problems without them.
+**12. Lines float between power on and the GPIO init.**
+The C2000 only has internal pullups, they are off at reset, and there are no pulldowns. During that window the mode pins and WR/FSYNC are not driven. The hardware fix would be 10 kΩ pulldowns on A0 and A1 and a 10 kΩ pullup on WR/FSYNC. These were not fitted on my setup and I saw no problems without them.
 
 ## CCS and the project
 
@@ -58,7 +58,7 @@ CCS added a second linker `.cmd` when I changed the device variant. Fix: exclude
 **16. Variable empty in the watch window.**
 Locals get optimised away, and globals are not zeroed unless they are initialised. Fix: watch globals, and initialise them.
 
-**17. Bitfield code did nothing in a driverlib-only project.**
+**17. Bitfield code did nothing in a driverlib only project.**
 The header only declares the register structs. Two more files make them real. `F2837xD_GlobalVariableDefs.c` creates them, and `F2837xD_Headers_nonBIOS_cpu1.cmd` places them at the hardware addresses. Without the `.cmd` the build still passes and the writes land in RAM. Check: `&SpiaRegs` should be 0x6100 in the debugger. STM32 does not have this step because its headers hold the address as a pointer.
 
 **18. The debugger graph is not evenly sampled.**

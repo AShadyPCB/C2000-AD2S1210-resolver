@@ -1,69 +1,104 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 320" width="940" height="320" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 400" width="940" height="400" font-family="Arial, Helvetica, sans-serif">
   <defs>
-    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    <marker id="k" viewBox="0 0 10 10" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+    <marker id="b" viewBox="0 0 10 10" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1f4e79"/>
+    </marker>
+    <marker id="r" viewBox="0 0 10 10" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b1a1a"/>
     </marker>
   </defs>
 
-  <rect x="0" y="0" width="940" height="320" rx="10" fill="#ffffff"/>
+  <rect width="940" height="400" fill="#ffffff"/>
 
-  <!-- C2000 -->
-  <rect x="20" y="20" width="230" height="280" rx="8" fill="#fdecea" stroke="#b03a2e" stroke-width="2"/>
-  <text x="135" y="48" text-anchor="middle" font-size="17" font-weight="600" fill="#222">TMS320F28379D</text>
-  <text x="135" y="68" text-anchor="middle" font-size="12" fill="#555">LAUNCHXL-F28379D</text>
-  <text x="34" y="160" font-size="12" font-weight="600" fill="#b03a2e">SPI-A</text>
-  <text x="34" y="176" font-size="11" fill="#555">polled, 1 MHz</text>
-  <text x="34" y="250" font-size="12" font-weight="600" fill="#b03a2e">GPIO</text>
-  <text x="240" y="109" text-anchor="end" font-size="11" fill="#444">GPIO60</text>
-  <text x="240" y="139" text-anchor="end" font-size="11" fill="#444">GPIO58</text>
-  <text x="240" y="169" text-anchor="end" font-size="11" fill="#444">GPIO59</text>
-  <text x="240" y="199" text-anchor="end" font-size="11" fill="#444">GPIO61</text>
-  <text x="240" y="234" text-anchor="end" font-size="11" fill="#444">GPIO19, 32</text>
-  <text x="240" y="264" text-anchor="end" font-size="11" fill="#444">GPIO40</text>
+  <!-- ===== MCU (dashed boundary, label below) ===== -->
+  <rect x="20" y="70" width="285" height="255" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="9,5"/>
+  <text x="162" y="352" text-anchor="middle" font-size="18" font-weight="bold">TMS320F28379D</text>
+  <text x="162" y="371" text-anchor="middle" font-size="13">LAUNCHXL-F28379D</text>
 
-  <!-- C2000 to AD2S1210 signals -->
-  <g stroke="#333" stroke-width="1.6" fill="none">
-    <line x1="250" y1="105" x2="448" y2="105" marker-end="url(#ah)"/>
-    <line x1="250" y1="135" x2="448" y2="135" marker-end="url(#ah)"/>
-    <line x1="252" y1="165" x2="450" y2="165" marker-start="url(#ah)"/>
-    <line x1="250" y1="195" x2="448" y2="195" marker-end="url(#ah)"/>
-    <line x1="250" y1="230" x2="448" y2="230" marker-end="url(#ah)"/>
-    <line x1="250" y1="260" x2="448" y2="260" marker-end="url(#ah)"/>
-  </g>
-  <g font-size="12" fill="#222" text-anchor="middle">
-    <text x="350" y="99">SCLK</text>
-    <text x="350" y="129">SDI</text>
-    <text x="350" y="159">SDO</text>
-    <text x="350" y="189">WR/FSYNC (SPISTE)</text>
-    <text x="350" y="224">A0, A1 (mode select)</text>
-    <text x="350" y="254">SAMPLE (latch angle)</text>
+  <!-- Read loop block -->
+  <rect x="40" y="145" width="100" height="80" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="90" y="180" text-anchor="middle" font-size="14" font-weight="bold">Position</text>
+  <text x="90" y="198" text-anchor="middle" font-size="14" font-weight="bold">read loop</text>
+
+  <!-- SPI-A block -->
+  <rect x="175" y="95" width="95" height="120" fill="#fff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="222" y="152" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">SPI A</text>
+  <text x="222" y="170" text-anchor="middle" font-size="12" fill="#1f4e79">1 MHz</text>
+
+  <!-- GPIO block -->
+  <rect x="175" y="235" width="95" height="65" fill="#fff" stroke="#8b1a1a" stroke-width="1.5"/>
+  <text x="222" y="272" text-anchor="middle" font-size="14" font-weight="bold" fill="#8b1a1a">GPIO</text>
+
+  <!-- loop to SPI and GPIO -->
+  <g fill="none" stroke-width="1.5">
+    <line x1="140" y1="165" x2="175" y2="165" stroke="#1f4e79" marker-end="url(#b)"/>
+    <polyline points="140,205 155,205 155,267 175,267" stroke="#8b1a1a" marker-end="url(#r)"/>
   </g>
 
-  <!-- AD2S1210 -->
-  <rect x="450" y="20" width="230" height="280" rx="8" fill="#e9f0fb" stroke="#2c5aa0" stroke-width="2"/>
-  <text x="565" y="48" text-anchor="middle" font-size="17" font-weight="600" fill="#222">AD2S1210</text>
-  <text x="565" y="68" text-anchor="middle" font-size="12" fill="#555">EVAL-CN0276-SDPZ</text>
-  <text x="565" y="150" text-anchor="middle" font-size="12" fill="#333">Resolver-to-digital</text>
-  <text x="565" y="166" text-anchor="middle" font-size="12" fill="#333">converter</text>
-  <text x="565" y="196" text-anchor="middle" font-size="12" fill="#333">16-bit angle out</text>
-  <text x="565" y="214" text-anchor="middle" font-size="11" fill="#555">8.192 MHz crystal</text>
+  <!-- ===== AD2S1210 ===== -->
+  <text x="520" y="42" text-anchor="middle" font-size="18" font-weight="bold">AD2S1210</text>
+  <text x="520" y="60" text-anchor="middle" font-size="13">EVAL-CN0276-SDPZ</text>
+  <rect x="430" y="70" width="180" height="255" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="520" y="186" text-anchor="middle" font-size="14" font-weight="bold">Resolver to Digital</text>
+  <text x="520" y="204" text-anchor="middle" font-size="14" font-weight="bold">Converter</text>
+  <text x="520" y="226" text-anchor="middle" font-size="12">16 bit angle</text>
 
-  <!-- AD2S1210 to resolver -->
-  <g stroke="#333" stroke-width="1.6" fill="none">
-    <line x1="680" y1="130" x2="808" y2="130" marker-end="url(#ah)"/>
-    <line x1="682" y1="185" x2="810" y2="185" marker-start="url(#ah)"/>
-    <line x1="682" y1="225" x2="810" y2="225" marker-start="url(#ah)"/>
+  <!-- SPI lines (blue) -->
+  <g fill="none" stroke="#1f4e79" stroke-width="1.5">
+    <line x1="270" y1="108" x2="430" y2="108" marker-end="url(#b)"/>
+    <line x1="270" y1="138" x2="430" y2="138" marker-end="url(#b)"/>
+    <line x1="270" y1="168" x2="430" y2="168" marker-start="url(#b)"/>
+    <line x1="270" y1="198" x2="430" y2="198" marker-end="url(#b)"/>
   </g>
-  <g font-size="12" fill="#222" text-anchor="middle">
-    <text x="745" y="124">Excitation 10 kHz</text>
-    <text x="745" y="179">SIN</text>
-    <text x="745" y="219">COS</text>
+  <g font-size="13" font-weight="bold" text-anchor="middle">
+    <text x="350" y="102">SCLK</text>
+    <text x="350" y="132">SDI</text>
+    <text x="350" y="162">SDO</text>
+    <text x="350" y="192">WR/FSYNC</text>
   </g>
 
-  <!-- Resolver -->
-  <rect x="810" y="90" width="110" height="160" rx="8" fill="#ecf6ec" stroke="#3c8d40" stroke-width="2"/>
-  <text x="865" y="150" text-anchor="middle" font-size="15" font-weight="600" fill="#222">Resolver</text>
-  <text x="865" y="172" text-anchor="middle" font-size="11" fill="#555">3 pole pairs</text>
-  <text x="865" y="188" text-anchor="middle" font-size="11" fill="#555">on the motor</text>
-  <text x="865" y="204" text-anchor="middle" font-size="11" fill="#555">shaft</text>
+  <!-- GPIO lines (red) -->
+  <g fill="none" stroke="#8b1a1a" stroke-width="1.5">
+    <line x1="270" y1="252" x2="430" y2="252" marker-end="url(#r)"/>
+    <line x1="270" y1="284" x2="430" y2="284" marker-end="url(#r)"/>
+  </g>
+  <g font-size="13" font-weight="bold" text-anchor="middle">
+    <text x="350" y="246">A0, A1</text>
+    <text x="350" y="278">SAMPLE</text>
+  </g>
+
+  <!-- ===== Resolver ===== -->
+  <text x="830" y="100" text-anchor="middle" font-size="18" font-weight="bold">Resolver</text>
+  <rect x="760" y="110" width="140" height="175" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="830" y="305" text-anchor="middle" font-size="13">3 pole pairs</text>
+
+  <!-- windings -->
+  <g fill="none" stroke="#000" stroke-width="2">
+    <path d="M776,140 a8,8 0 0 1 16,0 a8,8 0 0 1 16,0 a8,8 0 0 1 16,0 a8,8 0 0 1 16,0"/>
+    <path d="M776,200 a8,8 0 0 1 16,0 a8,8 0 0 1 16,0 a8,8 0 0 1 16,0 a8,8 0 0 1 16,0"/>
+    <path d="M776,255 a8,8 0 0 1 16,0 a8,8 0 0 1 16,0 a8,8 0 0 1 16,0 a8,8 0 0 1 16,0"/>
+    <polyline points="840,140 872,140 872,255 840,255" stroke-width="1.5"/>
+    <line x1="840" y1="200" x2="872" y2="200" stroke-width="1.5"/>
+  </g>
+  <circle cx="872" cy="200" r="3" fill="#000"/>
+  <g font-size="12" text-anchor="middle">
+    <text x="808" y="160">Rotor</text>
+    <text x="808" y="220">Sin</text>
+    <text x="808" y="275">Cos</text>
+  </g>
+
+  <!-- AD2S1210 to resolver (black) -->
+  <g fill="none" stroke="#000" stroke-width="1.5">
+    <line x1="610" y1="140" x2="776" y2="140" marker-end="url(#k)"/>
+    <line x1="610" y1="200" x2="776" y2="200" marker-start="url(#k)"/>
+    <line x1="610" y1="255" x2="776" y2="255" marker-start="url(#k)"/>
+  </g>
+  <g font-size="13" font-weight="bold" text-anchor="middle">
+    <text x="685" y="133">EXC, 10 kHz</text>
+    <text x="685" y="193">SIN</text>
+    <text x="685" y="248">COS</text>
+  </g>
 </svg>
