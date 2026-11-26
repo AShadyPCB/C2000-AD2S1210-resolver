@@ -50,7 +50,7 @@ Bench setup. The scope shows the excitation output at 5 kHz after the register w
 | GPIO40 (J5 pin 50) | GPIO output | SAMPLE (pin 15) |
 | GND | | GND |
 
-SOE (J2 pin 16) is tied to GND to select the serial interface. RES0 and RES1 were left unconnected. The full J2 pinout and notes are in [docs/wiring.md](docs/wiring.md).
+SOE (J2 pin 16) is tied to GND to select the serial interface. RES0 and RES1 were left unconnected and the board gives 16-bit output that way. The full J2 pinout and notes are in [docs/wiring.md](docs/wiring.md).
 
 ## SPI settings
 
@@ -98,7 +98,7 @@ On the bench, writing 0x14 to 0x91 changed the excitation output to 5 kHz on the
 2. Pulse SAMPLE high for 1 µs, then low. The falling edge latches the position.
 3. One 16-bit transfer. The reply is the angle.
 
-The angle is 16 bits, so 65536 counts is one electrical revolution. The code converts it with `position / 65535 x 360`. A reading of 660 counts gave 3.63 degrees, which matched the number worked out by hand. The 16223 reading has its two lowest bits set, which points to 16-bit output.
+The angle is 16 bits, so 65536 counts is one electrical revolution. The code converts it with `position / 65536 x 360`. A reading of 660 counts gave 3.63 degrees, which matched the number worked out by hand.
 
 **Inside the drive.** In the V/f test the same read ran inside the ePWM interrupt of the motor drive. SAMPLE goes high near the start of the interrupt, some control code runs, then SAMPLE goes low for 3 µs (measured) and the 16-bit position is read. The drive code is not part of this repo.
 

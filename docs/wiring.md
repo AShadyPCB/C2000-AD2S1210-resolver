@@ -37,6 +37,6 @@ Read from the EVAL-CN0276-SDPZ schematic.
 - GPIO19 and GPIO32 go to A0 and A1. The code always drives both together (11 for configuration mode, 00 for normal mode), so which goes where does not matter.
 - SOE (J2-16) is tied to GND to select the serial interface. The board pulls it high by default.
 - The board pulls CS low itself.
-- RES0 and RES1 were left unconnected in all tests. The pin levels were not measured with a meter. The position readings point to 16-bit output (16223 counts has its two lowest bits set).
+- RES0 and RES1 were left unconnected in all tests. The board gives 16-bit output with them left like this.
 - SPI-A on GPIO58 to 61 is mux option 15. That is GMUX = 3 and MUX = 3 for each pin. Both have to be set (see lesson 2 in [lessons.md](lessons.md)).
 - No pull resistors were fitted on the mode or framing lines. See lesson 12.

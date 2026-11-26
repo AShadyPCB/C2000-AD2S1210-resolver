@@ -213,7 +213,7 @@ void main(void)
     while (1){
 
         position = SPI_Rx_normal();                     // 0 to 65535 counts
-        real_pos = (position/65535.0f)*360.0f;          // electrical degrees
+        real_pos = (position/65536.0f)*360.0f;          // electrical degrees, 65536 counts = 360
 
     }
 
