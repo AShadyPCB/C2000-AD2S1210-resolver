@@ -35,7 +35,7 @@ Resolver angle over one mechanical revolution with the motor driven in V/f, spee
 | Inside the PWM interrupt | Position read runs inside the ePWM interrupt of an induction motor drive on a Wolfspeed XM3 inverter |
 | Standalone | Runs from flash with no debugger attached |
 
-## How it fits together
+## System Integration
 
 ![System block diagram](images/system_diagram.svg)
 
@@ -45,7 +45,7 @@ The C2000 is the SPI master. Two GPIO lines drive A0 and A1 to pick the AD2S1210
 
 Home bench setup, used to prove register access before the real resolver. The scope shows the excitation output at 5 kHz after the register write. The red LEDs are the LOT and DOS faults, lit because no resolver is connected.
 
-## Talking to the AD2S1210
+## Communicating with the AD2S1210
 
 All of the code is in [src/main.c](src/main.c). The snippets below are copied from it.
 
